@@ -1,6 +1,6 @@
 import { SRV_BUTTON } from "jacdac-ts"
 import React from "react"
-import { JacdacProvider, useRoles, useServices } from 'react-jacdac'
+import { JacdacProvider, useRoles, useServices, useDevices } from 'react-jacdac'
 import { useServiceProvider } from "./useServiceProvider"
 import SimulatorToolbar from  "./SimulatorToolbar"
 import ConnectButton, { bus } from "./ConnectButton"
@@ -14,11 +14,18 @@ const Demo = () => {
         button3: { serviceClass: SRV_BUTTON },
     })
     useServiceProvider({ serviceClass: SRV_BUTTON })
+    const devices = useDevices({})
 
     const buttons = useServices({ serviceClass: SRV_BUTTON })
     return (
         <>
             <ConnectButton />
+            <p>devices: {devices.length}</p>
+            <ul>
+                {devices.map(device => (
+                    <li key={device.id}>device {device.describe()}</li>
+                ))}
+            </ul>
             <SimulatorToolbar />
             <p>buttons:</p>
             <ul>
