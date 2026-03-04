@@ -19,6 +19,7 @@ export default defineConfig({
             { label: 'Button', slug: 'button' },
             { label: 'Interactive Button', slug: 'interactive-button' },
             { label: 'React Counter', slug: 'react-counter' },
+            { label: 'Jacdac', slug: 'jacdac' },
           ],
         },
         {
