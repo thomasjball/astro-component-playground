@@ -1,9 +1,9 @@
 import { SRV_BUTTON } from "jacdac-ts"
 import React from "react"
 import { JacdacProvider, useRoles, useServices } from 'react-jacdac'
-import bus from "./bus"
 import { useServiceProvider } from "./useServiceProvider"
 import SimulatorToolbar from  "./SimulatorToolbar"
+import ConnectButton, { bus } from "./ConnectButton"
 
 const Demo = () => {
     const {
@@ -18,6 +18,7 @@ const Demo = () => {
     const buttons = useServices({ serviceClass: SRV_BUTTON })
     return (
         <>
+            <ConnectButton />
             <SimulatorToolbar />
             <p>buttons:</p>
             <ul>
@@ -37,6 +38,6 @@ const Demo = () => {
 
 export default () => (
     <JacdacProvider initialBus={bus}>
-        <Demo client:load />
+        <Demo  />
     </JacdacProvider>
 )

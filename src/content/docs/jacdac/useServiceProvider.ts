@@ -4,7 +4,7 @@ import {
     addServiceProvider,
 } from "jacdac-ts"
 import { useEffect } from "react"
-import bus from "./bus"
+import { bus } from "./ConnectButton"
 
 export function useServiceProvider(options?: {
     serviceClass?: number
