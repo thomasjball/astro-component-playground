@@ -4,13 +4,13 @@ import ConnectButton, { bus } from "./ConnectButton"
 import React, { useState } from "react"
 
 const Demo = () => {
-    const [devices, setDevices] = useState<JDDevice[]>([])
+    const devices = useDevices({
+        announced: true,
+        ignoreInfrastructure: true,
+    })
 
     const getServices = (device: JDDevice) => device.services() as JDService[]
 
-    bus.on(CHANGE, () => {
-        setDevices(bus.devices())
-    })
     return (
         <>
             <ConnectButton />
