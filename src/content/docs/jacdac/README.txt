@@ -8,3 +8,9 @@ To work with Jacdac, there are some basic concepts
 
 - We can enumerate the devices on the bus: see Devices.tsx.  Devices may come and go 
   so we also subscribe to changes on the bus. 
+
+- Each device has a list of services that it supports. Each service has a unique id, defined
+  in jacdac-ts. For example, the button service's id is SRV_BUTTON. Every device must implement
+  the control service: SRV_CONTROL.
+
+- Each service is defined by registers, commands and events.
