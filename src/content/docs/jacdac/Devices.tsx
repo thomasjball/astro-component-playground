@@ -9,15 +9,19 @@ const Demo = () => {
         ignoreInfrastructure: true,
     })
 
-    const getServices = (device: JDDevice) => device.services() as JDService[]
-
     return (
         <>
             <ConnectButton />
             <p>devices: {devices.length}</p>
             <ul>
                 {devices.map(device => (
-                    <li key={device.id}>device {device.describe()}</li>
+                    <li key={device.id}>device {device.describe()}
+                        <ul>
+                            {device.services().map((service: JDService) => (
+                                <li key={service.id}>service {service.name}</li>
+                            ))}
+                        </ul>
+                    </li>
                 ))}
             </ul>
         </>
