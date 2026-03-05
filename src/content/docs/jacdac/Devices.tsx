@@ -1,16 +1,16 @@
 import { JDDevice, JDService, SRV_BUTTON, SRV_CONTROL, CHANGE } from "jacdac-ts"
 import { JacdacProvider, useDevices } from 'react-jacdac'
 import ConnectButton, { bus } from "./ConnectButton"
-import React, { useState } from "react"
+import React from "react"
 
 const Demo = () => {
-    const [devices, setDevices] = useState<JDDevice[]>([])
+    const devices = useDevices({
+        announced: true,
+        ignoreInfrastructure: true,
+    })
 
     const getServices = (device: JDDevice) => device.services() as JDService[]
 
-    bus.on(CHANGE, () => {
-        setDevices(bus.devices())
-    })
     return (
         <>
             <ConnectButton />
