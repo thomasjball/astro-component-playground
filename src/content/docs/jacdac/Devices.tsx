@@ -1,8 +1,8 @@
-import { JDDevice, JDService, SRV_BUTTON, ButtonReg } from "jacdac-ts"
-import { JacdacProvider, useDevices, useRegister, useRegisterValue, useRoles, useServices } from 'react-jacdac'
+import { JDDevice, JDService, SRV_BUTTON, ButtonReg, ButtonEvent, CHANGE } from "jacdac-ts"
+import { JacdacProvider, useDevices, useRegister, useRegisterValue, useRoles, useServices, useEvent } from 'react-jacdac'
 import ConnectButton, { bus } from "./ConnectButton"
 import { useServiceProvider } from "./useServiceProvider"
-import React from "react"
+import { useState, useEffect } from "react"
 
 const DemoRegister = (props: { device: JDDevice; identifier: number; service: JDService }) => {
     const { device, identifier, service } = props
@@ -10,6 +10,21 @@ const DemoRegister = (props: { device: JDDevice; identifier: number; service: JD
     const value = useRegisterValue(register)
     return <li style={{ marginLeft: "0.5rem" }}>{device.name} {register.name} {value}</li>
 }
+
+const DemoEvent = (props: { device: JDDevice; identifier: number; service: JDService }) => {
+    const { device, identifier, service } = props
+    const event = useEvent(service, identifier)
+    const [count, setCount] = useState(event?.count || 0)
+    useEffect(
+        () =>
+            event?.subscribe(CHANGE, () => {
+                setCount(event.count)
+            }),
+        [event]
+    )
+    return <li style={{ marginLeft: "0.5rem" }}>{device.name} {event.name} {count}</li>
+}
+
 
 const DemoRoles = () => {
     const {
@@ -42,7 +57,7 @@ const Demo = () => {
     return (
         <>
             <ConnectButton />
-            <h3>devices: {devices.length}</h3>
+            <h3>Devices: {devices.length}</h3>
             <ul>
                 {devices.map(device => (
                     <li key={device.id}>device {device.describe()}
@@ -54,10 +69,17 @@ const Demo = () => {
                     </li>
                 ))}
             </ul>
-            <h3>Try pressing buttons!</h3>
+            <h3>Register values</h3>
                 <ul>
                 {devices.filter(d => d.hasService(SRV_BUTTON)).map(device => (
                     <DemoRegister key={device.id} device={device} identifier={ButtonReg.Pressure} 
+                        service={device.services()[1]} />
+                ))}
+            </ul>
+            <h3>Events</h3>
+                <ul>
+                {devices.filter(d => d.hasService(SRV_BUTTON)).map(device => (
+                    <DemoEvent key={device.id} device={device} identifier={ButtonEvent.Up} 
                         service={device.services()[1]} />
                 ))}
             </ul>
