@@ -19,7 +19,7 @@ export default function ConnectButton() {
                 await bus.connect()
             }}
         >
-            {connected ? `connected` : `disconnected`}
+            {connected ? `connected` : `press to connect`}
         </button>
     )
 }

@@ -89,11 +89,11 @@ const Demo = () => {
             </ul>
             <h3>Roles assignments</h3>
             <DemoRoles />
-            { ledRingServices.length > 0 &&
+            <h3>LED ring test</h3>
+            { ledRingServices.length > 0 ?
             <>
-                <h3>LED ring</h3>
                 <LedRing service={ledRingServices[0]} />
-            </>
+            </> : <p>Add an LED ring to the Jacdac bus...</p>
             }
         </>
     )
