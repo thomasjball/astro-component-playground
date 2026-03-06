@@ -24,6 +24,12 @@ const Demo = () => {
                     </li>
                 ))}
             </ul>
+            <p>Try pressing buttons!</p>
+            <ul>
+                {devices.filter(d => d.hasService(SRV_BUTTON)).map(device => (
+                    <li key={device.id}>button {device.describe()}</li>
+                ))}
+            </ul>
         </>
     )
 }
