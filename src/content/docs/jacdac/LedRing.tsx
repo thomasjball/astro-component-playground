@@ -1,4 +1,4 @@
-import { JDDevice, JDService, LedReg } from "jacdac-ts"
+import { JDService, LedReg } from "jacdac-ts"
 import { useState } from "react"
 
 enum TestState {
@@ -46,14 +46,13 @@ async function test(service: JDService) {
             pixels[i * 3 + 2] = (color >> 0) & 0xff
         }
         await pixelsRegister.sendSetPackedAsync([pixels], true)
-        await delay(100)
-        k++
+        await delay(500)
     }
     test.state = TestState.Pass
     test.output = "test passed"
 }
 
-export default (service: JDService) => {
+export default ({service}: {service: JDService}) => {
     // on react button press, run led test
     const [testState, setTestState] = useState<Test>({
         state: TestState.Idle,
