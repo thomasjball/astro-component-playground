@@ -7,7 +7,7 @@ const DemoRegister = (props: { device: JDDevice; identifier: number; service: JD
     const { device, identifier, service } = props
     const register = useRegister(service, identifier)
     const value = useRegisterValue(register)
-    return <span style={{ marginLeft: "0.5rem" }}>{device.name} {register.name} {value}</span>
+    return <li style={{ marginLeft: "0.5rem" }}>{device.name} {register.name} {value}</li>
 }
 
 const Demo = () => {
@@ -32,10 +32,12 @@ const Demo = () => {
                 ))}
             </ul>
             <p>Try pressing buttons!</p>
+                <ul>
                 {devices.filter(d => d.hasService(SRV_BUTTON)).map(device => (
                     <DemoRegister key={device.id} device={device} identifier={ButtonReg.Pressure} 
                         service={device.services()[1]} />
                 ))}
+            </ul>
         </>
     )
 }
