@@ -34,7 +34,8 @@ const DemoRoles = () => {
         button2: { serviceClass: SRV_BUTTON },
         button3: { serviceClass: SRV_BUTTON },
     })
-    useServiceProvider({ serviceClass: SRV_BUTTON })
+    // this creates a simulated button service provider
+    // useServiceProvider({ serviceClass: SRV_BUTTON })
 
     const buttons = useServices({ serviceClass: SRV_BUTTON })
     return (
@@ -57,7 +58,7 @@ const Demo = () => {
     return (
         <>
             <ConnectButton />
-            <h3>Devices: {devices.length}</h3>
+            <h3>Devices (and their services): {devices.length}</h3>
             <ul>
                 {devices.map(device => (
                     <li key={device.id}>device {device.describe()}
@@ -69,21 +70,21 @@ const Demo = () => {
                     </li>
                 ))}
             </ul>
-            <h3>Register values</h3>
+            <h3>Register value (ButtonReg.Pressure)</h3>
                 <ul>
                 {devices.filter(d => d.hasService(SRV_BUTTON)).map(device => (
                     <DemoRegister key={device.id} device={device} identifier={ButtonReg.Pressure} 
                         service={device.services()[1]} />
                 ))}
             </ul>
-            <h3>Events</h3>
+            <h3>Event count (ButtonEvent.Up)</h3>
                 <ul>
                 {devices.filter(d => d.hasService(SRV_BUTTON)).map(device => (
                     <DemoEvent key={device.id} device={device} identifier={ButtonEvent.Up} 
                         service={device.services()[1]} />
                 ))}
             </ul>
-            <h3>Roles:</h3>
+            <h3>Roles assignments</h3>
             <DemoRoles />
         </>
     )
