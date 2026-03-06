@@ -21,7 +21,7 @@ async function test(service: JDService) {
         state: TestState.Running,
         output: "ok",
     }
-    const testColors = [0xff0000, 0x00ff00, 0x0000ff]
+    const testColors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff, 0x000000]
     const pixelsRegister = service.register(LedReg.Pixels)
     const numPixelsRegister = service.register(LedReg.NumPixels)
     let n: number = undefined
