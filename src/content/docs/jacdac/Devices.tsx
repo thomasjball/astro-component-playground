@@ -1,8 +1,9 @@
-import { JDDevice, JDService, SRV_BUTTON, ButtonReg, ButtonEvent, CHANGE } from "jacdac-ts"
+import { JDDevice, JDService, SRV_LED, SRV_BUTTON, ButtonReg, ButtonEvent, CHANGE } from "jacdac-ts"
 import { JacdacProvider, useDevices, useRegister, useRegisterValue, useRoles, useServices, useEvent } from 'react-jacdac'
 import ConnectButton, { bus } from "./ConnectButton"
 import { useServiceProvider } from "./useServiceProvider"
 import { useState, useEffect } from "react"
+import LedRing from "./LedRing"
 
 const DemoRegister = (props: { device: JDDevice; identifier: number; service: JDService }) => {
     const { device, identifier, service } = props
@@ -55,6 +56,8 @@ const Demo = () => {
         ignoreInfrastructure: true,
     })
 
+    const ledRingServices = useServices({ serviceClass: SRV_LED })
+
     return (
         <>
             <ConnectButton />
@@ -86,6 +89,12 @@ const Demo = () => {
             </ul>
             <h3>Roles assignments</h3>
             <DemoRoles />
+            { ledRingServices.length > 0 &&
+            <>
+                <h3>LED ring</h3>
+                <LedRing service={ledRingServices[0]} />
+            </>
+            }
         </>
     )
 }
