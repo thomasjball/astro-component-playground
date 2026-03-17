@@ -1,9 +1,20 @@
 import { JDDevice, JDService, SRV_LED, SRV_BUTTON, ButtonReg, ButtonEvent, CHANGE } from "jacdac-ts"
+import { SRV_LIGHT_LEVEL, SystemReg } from "jacdac-ts"
+import { SRV_POTENTIOMETER, PotentiometerReg } from "jacdac-ts"
+import { SRV_ROTARY_ENCODER } from "jacdac-ts"
+import { SRV_MAGNETIC_FIELD_LEVEL } from "jacdac-ts"
 import { JacdacProvider, useDevices, useRegister, useRegisterValue, useRoles, useServices, useEvent } from 'react-jacdac'
 import ConnectButton, { bus } from "./ConnectButton"
-import { useServiceProvider } from "./useServiceProvider"
 import { useState, useEffect } from "react"
 import LedRing from "./LedRing"
+
+
+const sensors = [
+    { serviceClass: SRV_LIGHT_LEVEL, reg: SystemReg.Reading },
+    { serviceClass: SRV_POTENTIOMETER, reg: PotentiometerReg.Position },
+    { serviceClass: SRV_ROTARY_ENCODER, reg: SystemReg.Reading },
+    { serviceClass: SRV_MAGNETIC_FIELD_LEVEL, reg: SystemReg.Reading },
+]
 
 const DemoRegister = (props: { device: JDDevice; identifier: number; service: JDService }) => {
     const { device, identifier, service } = props
@@ -23,7 +34,7 @@ const DemoEvent = (props: { device: JDDevice; identifier: number; service: JDSer
             }),
         [event]
     )
-    return <li style={{ marginLeft: "0.5rem" }}>{device.name} {event.name} {count}</li>
+    return <li style={{ marginLeft: "0.5rem" }}>{device.name} {event?.name} {count}</li>
 }
 
 
@@ -77,15 +88,24 @@ const Demo = () => {
                 <ul>
                 {devices.filter(d => d.hasService(SRV_BUTTON)).map(device => (
                     <DemoRegister key={device.id} device={device} identifier={ButtonReg.Pressure} 
-                        service={device.services()[1]} />
+                        service={device.services().find(s => s.serviceClass === SRV_BUTTON)} />
                 ))}
             </ul>
             <h3>Event count (ButtonEvent.Up)</h3>
                 <ul>
                 {devices.filter(d => d.hasService(SRV_BUTTON)).map(device => (
                     <DemoEvent key={device.id} device={device} identifier={ButtonEvent.Up} 
-                        service={device.services()[1]} />
+                        service={device.services().find(s => s.serviceClass === SRV_BUTTON)} />
                 ))}
+            </ul>
+            <h3>Other sensors</h3>
+            <ul>
+                {sensors.map((sensor, index) => 
+                    devices.filter(d => d.hasService(sensor.serviceClass)).map(device => (
+                        <DemoRegister key={`${device.id}-${index}`} device={device} identifier={sensor.reg} 
+                            service={device.services().find(s => s.serviceClass === sensor.serviceClass)!} />
+                    ))
+                )}
             </ul>
             <h3>Roles assignments</h3>
             <DemoRoles />
