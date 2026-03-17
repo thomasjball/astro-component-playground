@@ -1,11 +1,8 @@
 
 import React, { useState } from "react"
-import { createUSBBus } from "jacdac-ts"
+import { createUSBBus, bus } from "jacdac-ts"
 import { JDBus, Transport, ConnectionState } from "jacdac-ts"
 import { useChange } from "react-jacdac"
-
-export let bus: JDBus = createUSBBus()
-bus.streaming = true
 
 export default function ConnectButton() {
     const transport = bus.transports[0] as Transport
